@@ -31,17 +31,17 @@ def ip_is_alive(ip_port):
     path = os.path.join(my_path, "ipporxy.txt")
     ip=ip_port.split(' ')[0]
     port=ip_port.split(' ')[-1]
-    # try:
-    #     tn = telnetlib.Telnet(ip, port=port,timeout=2)
-    # except:
-    #     print('[-] ip:{}:{}'.format(ip,port))
-    #     not_alive+=1
-    # else:
-    print('[+] ip:{}:{}'.format(ip, port))
-    curl_pv(ip, port)  # 有效的ip就开始刷pv
-    is_alive += 1
-    with open(path, 'a') as f:
-        f.write(ip + ':' + port + '\n')
+    try:
+        tn = telnetlib.Telnet(ip, port=port,timeout=2)
+    except:
+        print('[-] ip:{}:{}'.format(ip,port))
+        not_alive+=1
+    else:
+        print('[+] ip:{}:{}'.format(ip, port))
+        curl_pv(ip, port)  # 有效的ip就开始刷pv
+        is_alive += 1
+        with open(path, 'a') as f:
+            f.write(ip + ':' + port + '\n')
 
 #提取IP池的ip 以列表形式返回
 def read_ip(dress):
