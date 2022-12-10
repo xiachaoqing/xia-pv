@@ -1,0 +1,9 @@
+https://test.shanghaihanhongbio.com
+https://test.shanghaihanhongbio.com/product/product.php?class1=148
+https://test.shanghaihanhongbio.com/img/img.php?class1=157
+https://test.shanghaihanhongbio.com/product/product.php?class2=149
+https://test.shanghaihanhongbio.com/about/show.php?id=143#google_vignette
+https://test.shanghaihanhongbio.com/feedback/
+https://test.shanghaihanhongbio.com/about/show.php?id=169
+https://test.shanghaihanhongbio.com/about/show.php?id=144
+https://test.shanghaihanhongbio.com/img/img.php?class1=157
