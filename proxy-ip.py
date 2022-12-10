@@ -3,6 +3,7 @@
 import json,time,requests,datetime,subprocess,random,telnetlib
 from multiprocessing import Pool,Manager
 from lxml import etree
+import os.path
 
 def rm_symbol(c1):
     new_c1=c1.replace('\n','').replace('\t','')
@@ -26,19 +27,21 @@ def get_89ip_data(i,q):
 def ip_is_alive(ip_port):
     global is_alive
     global not_alive
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "ipporxy.txt")
     ip=ip_port.split(' ')[0]
     port=ip_port.split(' ')[-1]
-    try:
-        tn = telnetlib.Telnet(ip, port=port,timeout=2)
-    except:
-        print('[-] ip:{}:{}'.format(ip,port))
-        not_alive+=1
-    else:
-        print('[+] ip:{}:{}'.format(ip,port))
-        curl_pv(ip,port) #有效的ip就开始刷pv
-        is_alive+=1
-        with open('ipporxy.txt','a') as f:
-            f.write(ip+':'+port+'\n')
+    # try:
+    #     tn = telnetlib.Telnet(ip, port=port,timeout=2)
+    # except:
+    #     print('[-] ip:{}:{}'.format(ip,port))
+    #     not_alive+=1
+    # else:
+    print('[+] ip:{}:{}'.format(ip, port))
+    curl_pv(ip, port)  # 有效的ip就开始刷pv
+    is_alive += 1
+    with open(path, 'a') as f:
+        f.write(ip + ':' + port + '\n')
 
 #提取IP池的ip 以列表形式返回
 def read_ip(dress):
@@ -54,8 +57,10 @@ def read_ip(dress):
 ##检查到有效ip直接通过curl去访问
 def curl_pv(ip,port):
     blogs_url =[]
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "blogs_url.txt")
     try:
-        with open('blogs_url.txt', 'r') as f:
+        with open(path, 'r') as f:
             for line in f.readlines():
                 line=line.strip()
                 blogs_url.append(line)
@@ -104,7 +109,7 @@ if __name__ == "__main__":
     start_time=time.time()
     pool=Pool(20)     # 使用进程池创建20个子进程
     print("开始执行子进程")
-    for i in range(1,100):
+    for i in range(1,26):
         pool.apply_async(get_89ip_data, args=(i,q))
     print('======  apply_async	======')
     pool.close() #关闭进程池，不再接受新的进程，只是会把状态改为不可再插入元素的状态
