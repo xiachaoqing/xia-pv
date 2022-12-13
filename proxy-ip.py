@@ -59,6 +59,7 @@ def curl_pv(ip,port):
     blogs_url =[]
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "blogs_url.txt")
+    successful_path = os.path.join(my_path, "successful_ip.txt")
     try:
         with open(path, 'r') as f:
             for line in f.readlines():
@@ -87,7 +88,7 @@ def curl_pv(ip,port):
                 if status != 0:
                     break
                 else:
-                    with open('successful_ip.txt', 'a') as f:
+                    with open(successful_path, 'a') as f:
                         f.write(('%s---%s')%(ip,url) + '\n') ##写入成功的url和代理ip
             if status != 0:
                 break
@@ -96,13 +97,16 @@ def curl_pv(ip,port):
 if __name__ == "__main__":
     not_alive=0
     is_alive=0
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    ipporxy_path = os.path.join(my_path, "ipporxy.txt")
+    successful_path = os.path.join(my_path, "successful_ip.txt")
     q = Manager().Queue() ##用于进程池Pool的进程之间的消息队列
     ret = []
     print('------------IP检测开始------------')
     print('[+]代表ip有效\n[-]代表ip无效\n')
-    with open('ipporxy.txt', 'w') as f:
+    with open(ipporxy_path, 'w') as f:
         f.write('------------自动获取 IP代理池-----------\n')
-    with open('successful_ip.txt', 'w') as f:
+    with open(successful_path, 'w') as f:
         f.write('------------刷ip/uv/pu成功的url和代理ip-----------\n')
 
     print("开始执行主程序")
@@ -121,5 +125,5 @@ if __name__ == "__main__":
             ret.append(value)
         else:
             break
-    with open('ipporxy.txt', 'a') as f:
+    with open(ipporxy_path, 'a') as f:
         f.write('------更新时间：{}-----\n'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
